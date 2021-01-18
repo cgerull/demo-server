@@ -27,7 +27,12 @@ def index():
     """Build response data and send page to requester."""
     read_config(config_file, srv_config)
     response_data = build_response_data()
-    resp = make_response(render_template('index.html', title=srv_config['title'], footer=srv_config['footer'], resp=response_data))
+    resp = make_response(
+        render_template('index.html',
+        title=srv_config['title'],
+        footer=srv_config['footer'],
+        resp=response_data)
+        )
     resp.headers['Server-IP'] = socket.gethostbyname(localhost)
     return resp
 
@@ -65,7 +70,7 @@ def build_response_data():
         'platform': platform.platform(),
         'system': platform.system(),
         'processor': platform.processor(),
-        'architecure': platform.architecture(),
+        'architecture': ' '.join(map(str,platform.architecture())),
         'local_ip': socket.gethostbyname(localhost),
         'container_name': localhost,
         'secret': get_secret_key(),
