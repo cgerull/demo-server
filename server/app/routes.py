@@ -8,6 +8,7 @@ from datetime import datetime
 import socket
 import os
 import yaml
+import platform
 
 # Modules constants
 secret_file = '/run/secrets/my_secret_key'
@@ -58,8 +59,13 @@ def build_response_data():
     server name, secret and requester ip.
     """
     localhost = socket.gethostname()
+
     return {
         'now': datetime.now().isoformat(sep=' '),
+        'platform': platform.platform(),
+        'system': platform.system(),
+        'processor': platform.processor(),
+        'architecure': platform.architecture(),
         'local_ip': socket.gethostbyname(localhost),
         'container_name': localhost,
         'secret': get_secret_key(),
